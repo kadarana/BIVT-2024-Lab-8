@@ -23,7 +23,7 @@ namespace Lab_8
        
 
         
-        public (char, double)[] Alpha(string str)
+        private (char, double)[] Alpha(string str)
         {
             //string alph = "яюэьыъщшчцхфутсрпонмлкйизжёедгвбаzyxwvutsrqponmlkjihgfedcba";
             //string text = str.ToLower();
@@ -92,7 +92,7 @@ namespace Lab_8
             return result;
         }
 
-        public void Sort(ref (char, double)[] array)
+        private void Sort(ref (char, double)[] array)
         {
             if (array == null || array.Length == 0) return;
             for (int i = 0; i < array.Length; i++)
@@ -122,7 +122,7 @@ namespace Lab_8
 
             foreach (var (alph, cnt) in _output)
             {
-                sb.AppendLine($"{alph} - {cnt}");
+                sb.AppendLine($"{alph} - {cnt:0.0000}");
             }
 
             return sb.ToString().TrimEnd(); 

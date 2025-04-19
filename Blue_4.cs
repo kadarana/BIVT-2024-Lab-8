@@ -23,7 +23,7 @@ namespace Lab_8
             _output = 0;
         }
 
-        public int FindSum(string str)
+        private int FindSum(string str)
         {
             if (str == null || str.Length == 0) return 0;
             string[] text = str.Split(' ');

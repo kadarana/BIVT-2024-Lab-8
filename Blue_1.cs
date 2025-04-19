@@ -9,73 +9,65 @@ namespace Lab_8
     // наследник класса Blue 
     public class Blue_1 : Blue
     {
-        private string[] _output; 
-        public Blue_1(string input) : base(input) 
+        private string[] _output;
+        public string[] Output => _output;
+
+        public Blue_1(string input) : base(input)
         {
             _output = null;
         }
-        public string[] Output => _output;
 
-        
-        private void AddArrayOutput(string s)
+        // Статический вспомогательный метод для добавления строки в массив строк
+        private static void Add(ref string[] strings, string str)
         {
-            if (_output == null) _output = new string[1];
-            else
-            {
-                Array.Resize(ref _output, _output.Length + 1);
-            }
-            _output[_output.Length - 1] = s;
-        }
-
-        private string ConvertString(string s)
-        {
-            if (s == null || s.Length == 0) return null;
-            if (s.Length < 50)
-            {
-                AddArrayOutput(s);
-                return null;
-            }
-
-            int cnt = 50;
-            while (!Char.IsWhiteSpace(s[cnt]) == false) cnt--;
-
-
-            char[] resArr = new char[cnt];
-            char[] strArr = s.ToCharArray();
-            Array.Copy(strArr, resArr, cnt);
-
-            string res = new string(resArr);
-
-            AddArrayOutput(res);
-            s = s.Remove(0, cnt + 1);
-            return s;
-
+            if (strings == null || string.IsNullOrEmpty(str)) return;
+            // Создаётся новый массив на один элемент больше
+            string[] newStrings = new string[strings.Length + 1]; // Копируются старые значения
+            Array.Copy(strings, newStrings, strings.Length);
+            newStrings[strings.Length] = str;
+            strings = newStrings;
         }
 
 
-
+        // Метод разбивает исходную строку на подстроки длиной не более 50 символов, не разрывая слова
         public override void Review()
         {
-            string var = Input;
-            while (!String.IsNullOrEmpty(var))
-                var = ConvertString(var);
+            if (string.IsNullOrEmpty(Input))
+            {
+                _output = null;
+                return;
+            }
+
+            _output = Input.Split(' '); // Разбиваем входную строку на слова
+            string[] res = new string[0]; // Результирующий массив строк
+            int counter = 0;
+            for (int i = 0; i < _output.Length;)
+            {
+                string p = "";
+                counter = _output[i].Length;
+                // Пока общая длина слов в строке не превышает 50 символов
+                while (counter <= 50)
+                {
+                    p += _output[i++] + " "; // Добавляем слово с пробелом
+                    if (i != _output.Length)
+                        counter += _output[i].Length + 1; // Учитываем длину следующего слова и пробел
+                    else break;
+                }
+
+                Add(ref res, p.Substring(0, p.Length - 1));
+                
+            }
+            _output = res;
 
         }
+
 
         public override string ToString()
         {
-            if (_output == null) return null;
-            string s = "";
-            for (int k = 0; k < _output.Length; k++)
-                s += $"{_output[k]}\n";
-            s = s.Remove(s.Length - 1, 1);
-            return s;
+            if (_output == null || _output.Length == 0)
+                return string.Empty;
+            return string.Join(Environment.NewLine, _output); // Объединяем строки с переводом строки между ними
         }
 
-
-     
-
-
-       
     }
 }

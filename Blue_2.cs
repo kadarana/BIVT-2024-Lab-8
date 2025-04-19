@@ -18,12 +18,11 @@ namespace Lab_8
             _output = null;
         }
         public string Output => _output;
-        public string Del => _del;
 
 
         private static void ToDelete(ref string str, string del)
         {
-            if (str == null || str.Length == 0) return;
+            if (string.IsNullOrEmpty(str) || string.IsNullOrEmpty(del)) return;
             string[] text = str.Split(' ');
 
             int newSize = 0;
@@ -49,8 +48,8 @@ namespace Lab_8
                 if (text[i].Contains(del))
                 {
                     string s = text[i];
-                   
-                    if (s.Contains("\"") && !s.Contains('.') && s.Contains(','))
+
+                    if (s.Contains("\"") && !s.Contains('.') && !s.Contains(','))
                     {
                         newText[k++] = "\"\"";
                     }
@@ -70,13 +69,14 @@ namespace Lab_8
 
                     else if (s.Contains(",") && k != 0)
                     {
-                        newText[k - 1] += ","; 
+                        newText[k - 1] += ",";
                     }
 
-                    
+
                 }
                 else newText[k++] = text[i];
-                
+
+
             }
             text = newText;  
             str = string.Join(" ", text);
